@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       
+       <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*"	 				propagation="REQUIRED"/>
+			<tx:method name="insert*" 				propagation="REQUIRED"/>
+			<tx:method name="update*" 				propagation="REQUIRED"/>
+			<tx:method name="delete*" 				propagation="REQUIRED"/>
+			<tx:method name="test*" 				propagation="REQUIRED"/>
+			<tx:method name="check*"	 			propagation="REQUIRED"/>
+			<tx:method name="authenticate*"			propagation="REQUIRED"/>			
+			<tx:method name="import*" 				propagation="REQUIRED"/>
+			<tx:method name="export*" 				propagation="REQUIRED"/>
+			<tx:method name="parse*" 				propagation="REQUIRED"/>
+			<tx:method name="generate*"  			propagation="REQUIRED"/>
+			<tx:method name="confirm*" 				propagation="REQUIRED"/>
+			<tx:method name="cancel*" 				propagation="REQUIRED"/>
+			<tx:method name="reject*" 				propagation="REQUIRED"/>
+			<tx:method name="reCreate*" 			propagation="REQUIRED"/>
+			<tx:method name="bulk*"		 			propagation="REQUIRED"/>		
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="service" expression="execution(* app..*Service.*(..))" />
+		<aop:pointcut id="DaoImpl" expression="execution(* app..*DaoImpl.*(..))" />		
+		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="service" />
+		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="DaoImpl" />		
+	</aop:config>
+       
+</beans>
